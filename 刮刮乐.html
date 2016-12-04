@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>刮刮乐</title>
+	<style type="text/css">
+		.guagua{
+			position: relative;
+			width: 560px;
+			height: 300px;
+		}
+		.guagua .zi{
+			position: absolute;
+			width: 560px;
+			height: 300px;
+			line-height: 300px;
+			font-size: 60px;
+		}
+		canvas{
+			border: 1px solid #ccc;
+		 	position: absolute;
+			top: 0;
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="guagua">
+		<div class="zi">
+			恭喜你中奖了！
+		</div>
+		<canvas id="canvas" width="560" height="300"></canvas>
+	</div>
+	
+	
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+
+		ctx.fillStyle = "#333";
+		ctx.fillRect(0, 0, 560, 300);
+
+		//鼠标按下的时候，注册移动鼠标事件
+		canvas.onmousedown = function(){
+			// 按下并移动鼠标
+			canvas.onmousemove = function(event){
+				var x = event.offsetX;
+				var y = event.offsetY;
+				ctx.save();
+				ctx.globalCompositeOperation = "destination-out";
+				ctx.beginPath();
+				ctx.arc(x,y,30,0,7,false);
+				ctx.fillStyle = "red";
+				ctx.fill();
+				ctx.restore();
+			}
+		}
+
+		//当鼠标抬起的时候，拿掉鼠标移动的事件监听
+		document.onmouseup = function(){
+			canvas.onmousemove = null;
+		}
+	</script>
+</body>
+</html>
